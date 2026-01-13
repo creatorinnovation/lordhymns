@@ -24,6 +24,8 @@ Route::post('/register', [AuthController::class, 'register']);
 // });
 
 Route::get('/all_lyrics', [SongController::class, 'all_lyrics']);
+Route::put('/single_lyrics/{id}', [SongController::class, 'showid']);  
+
 
 // Protected Routes: Requires a valid Bearer Token (Sanctum)
 Route::middleware('auth:sanctum')->group(function () {

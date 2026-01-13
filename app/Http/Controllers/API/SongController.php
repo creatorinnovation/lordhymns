@@ -26,14 +26,14 @@ class SongController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'english_title' => 'required|string|min:3',
-            'hindi_title'   => 'required|string',
-            'artist'        => 'required|string',
-            'english_lyric' => 'required|string',
-            'hindi_lyric'   => 'required|string',
-            'youtube_link'  => 'nullable|url',
-            'tags'          => 'nullable|string',
-            'status'        => 'required|in:Active,Deactive'
+            // 'english_title' => 'required|string|min:3',
+            // 'hindi_title'   => 'required|string',
+            // 'artist'        => 'required|string',
+            // 'english_lyric' => 'required|string',
+            // 'hindi_lyric'   => 'required|string',
+            // 'youtube_link'  => 'nullable|url',
+            // 'tags'          => 'nullable|string',
+            // 'status'        => 'required|in:Active,Deactive'
         ]);
 
         if ($validator->fails()) {
@@ -105,7 +105,7 @@ class SongController extends Controller
             $query->where('english_title', 'LIKE', "%$search%")
                 ->orWhere('artist', 'LIKE', "%$search%");
         })
-            ->orderBy('english_title', 'asc')
+            ->orderBy('english_title', 'ASC') // Alphabetical A-Z
             ->paginate($limit);
 
         return response()->json([
@@ -114,6 +114,16 @@ class SongController extends Controller
             'total'   => $songs->total(),
             'current_page' => $songs->currentPage(),
             'last_page'    => $songs->lastPage(),
+        ]);
+    }
+
+    public function showid($id)
+    {
+        $song = Song::findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'song' => $song
         ]);
     }
 }
