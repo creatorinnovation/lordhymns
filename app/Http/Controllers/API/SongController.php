@@ -26,14 +26,14 @@ class SongController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'english_title' => 'required|string|min:3',
-            'hindi_title'   => 'required|string',
-            'artist'        => 'required|string',
-            'english_lyric' => 'required|string',
-            'hindi_lyric'   => 'required|string',
-            'youtube_link'  => 'nullable|url',
-            'tags'          => 'nullable|string',
-            'status'        => 'required|in:Active,Deactive'
+            'english_title' => 'string',
+            'hindi_title'   => 'string',
+            'artist'        => 'string',
+            'english_lyric' => 'string',
+            'hindi_lyric'   => 'string',
+            'youtube_link'  => 'string',
+            'tags'          => 'string',
+            'status'        => 'in:Active,Deactive'
         ]);
 
         if ($validator->fails()) {
