@@ -50,7 +50,7 @@ class SongController extends Controller
             'hindi_lyric'   => $request->hindi_lyric,
             'youtube_link'  => $request->youtube_link,
             'tags'          => $request->tags,
-            'status'        => 'Active'
+            'status'        => $request->status
             // 'name' => $request->name,
             // 'email' => $request->email,
             // 'role' => $request->role ?? 'user', // डिफ़ॉल्ट 'user'
