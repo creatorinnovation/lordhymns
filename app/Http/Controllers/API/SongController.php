@@ -31,8 +31,8 @@ class SongController extends Controller
             'artist'        => 'string',
             'english_lyric' => 'string',
             'hindi_lyric'   => 'string',
-            'youtube_link'  => 'nullable|string',
-            'tags'          => 'nullable|string',
+            'youtube_link'  => 'string',
+            'tags'          => 'string',
             'status'        => 'in:Active,Deactive'
         ]);
 
