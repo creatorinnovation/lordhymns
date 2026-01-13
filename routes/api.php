@@ -23,16 +23,17 @@ Route::post('/register', [AuthController::class, 'register']);
 
 // });
 
- // Protected Routes: Requires a valid Bearer Token (Sanctum)
-    Route::middleware('auth:sanctum')->group(function () {
-        
-        // Resource-style routes for Lyric Management
-        Route::get('/lyrics', [SongController::class, 'index']);          // Fetch all
-        Route::post('/lyrics', [SongController::class, 'store']);         // Create new
-        Route::put('/lyrics/{id}', [SongController::class, 'update']);    // Update whole record
-        Route::delete('/lyrics/{id}', [SongController::class, 'destroy']); // Delete record
-        
-        // Custom PATCH route for status toggle (matching your controller method)
-        Route::patch('/lyrics/{id}/status', [SongController::class, 'updateStatus']);
-        
-    });
+Route::get('/all_lyrics', [SongController::class, 'all_lyrics']);
+
+// Protected Routes: Requires a valid Bearer Token (Sanctum)
+Route::middleware('auth:sanctum')->group(function () {
+
+    // Resource-style routes for Lyric Management
+    Route::get('/lyrics', [SongController::class, 'index']);          // Fetch all
+    Route::post('/lyrics', [SongController::class, 'store']);         // Create new
+    Route::put('/lyrics/{id}', [SongController::class, 'update']);    // Update whole record
+    Route::delete('/lyrics/{id}', [SongController::class, 'destroy']); // Delete record
+
+    // Custom PATCH route for status toggle (matching your controller method)
+    Route::patch('/lyrics/{id}/status', [SongController::class, 'updateStatus']);
+});

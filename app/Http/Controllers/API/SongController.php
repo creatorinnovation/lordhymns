@@ -95,4 +95,25 @@ class SongController extends Controller
 
         return response()->json(['message' => 'Record deleted successfully']);
     }
+
+    public function all_lyrics(Request $request)
+    {
+        $search = $request->query('search');
+        $limit  = $request->query('limit', 10);
+
+        $songs = Song::when($search, function ($query) use ($search) {
+            $query->where('title', 'LIKE', "%$search%")
+                ->orWhere('artist', 'LIKE', "%$search%");
+        })
+            ->orderBy('title', 'asc')
+            ->paginate($limit);
+
+        return response()->json([
+            'success' => true,
+            'songs'   => $songs->items(),
+            'total'   => $songs->total(),
+            'current_page' => $songs->currentPage(),
+            'last_page'    => $songs->lastPage(),
+        ]);
+    }
 }
