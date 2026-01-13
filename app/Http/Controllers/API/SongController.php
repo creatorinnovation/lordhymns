@@ -101,10 +101,11 @@ class SongController extends Controller
         $search = $request->query('search');
         $limit  = $request->query('limit', 10);
 
-        $songs = Song::when($search, function ($query) use ($search) {
-            $query->where('english_title', 'LIKE', "%$search%")
-                ->orWhere('artist', 'LIKE', "%$search%");
-        })
+        $songs = Song::where('status', 'active') // ✅ sirf active songs
+            ->when($search, function ($query) use ($search) {
+                $query->where('english_title', 'LIKE', "%$search%")
+                    ->orWhere('artist', 'LIKE', "%$search%");
+            })
             ->orderBy('english_title', 'ASC') // Alphabetical A-Z
             ->paginate($limit);
 
