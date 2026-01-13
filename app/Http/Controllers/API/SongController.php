@@ -34,7 +34,7 @@ class SongController extends Controller
             //'hindi_lyric'   => 'required|string',
             //'youtube_link'  => 'nullable|url',
             //'tags'          => 'nullable|string',
-            'status'        => 'required|in:Active,Deactive'
+            //'status'        => 'required|in:Active,Deactive'
         ]);
 
         if ($validator->fails()) {
