@@ -25,24 +25,57 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
+        // 1. डेटा वैलिडेट करें
         $validator = Validator::make($request->all(), [
-            'english_title' => 'required|string|min:3',
-            'hindi_title'   => 'required|string',
-            'artist'        => 'required|string',
+            'english_title' => 'required|string',
+            //'hindi_title'   => 'required|string',
+            //'artist'        => 'required|string',
             'english_lyric' => 'required|string',
-            'hindi_lyric'   => 'required|string',
-            'youtube_link'  => 'nullable|url',
-            'tags'          => 'nullable|string',
+            //'hindi_lyric'   => 'required|string',
+            //'youtube_link'  => 'nullable|url',
+            //'tags'          => 'nullable|string',
             'status'        => 'required|in:Active,Deactive'
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => 'Validation Error', 'errors' => $validator->errors()], 422);
+            return response()->json($validator->errors(), 422);
         }
 
-        $lyric = Song::create($request->all());
+        // 2. यूजर बनाएँ
+        $user = Song::create([
+            'english_title' => $request->english_title,
+            'hindi_title'   => $request->hindi_title,
+            'artist'        => $request->artist,
+            'english_lyric' => $request->english_lyric,
+            'hindi_lyric'   => $request->hindi_lyric,
+            'youtube_link'  => $request->youtube_link,
+            'tags'          => $request->tags,
+            'status'        => $request->status ?? 'Active'
+        ]);
 
-        return response()->json($lyric, 201);
+        return response()->json([
+            'message' => 'User registered successfully',
+            'user' => $user
+        ], 201);
+
+        // $validator = Validator::make($request->all(), [
+        //     'english_title' => 'required|string|min:3',
+        //     'hindi_title'   => 'required|string',
+        //     'artist'        => 'required|string',
+        //     'english_lyric' => 'required|string',
+        //     'hindi_lyric'   => 'required|string',
+        //     'youtube_link'  => 'nullable|url',
+        //     'tags'          => 'nullable|string',
+        //     'status'        => 'required|in:Active,Deactive'
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return response()->json(['message' => 'Validation Error', 'errors' => $validator->errors()], 422);
+        // }
+
+        // $lyric = Song::create($request->all());
+
+        // return response()->json($lyric, 201);
     }
 
     /**
