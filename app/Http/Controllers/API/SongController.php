@@ -33,7 +33,7 @@ class SongController extends Controller
             'english_lyric' => 'required|string',
             //'hindi_lyric'   => 'required|string',
             //'youtube_link'  => 'nullable|url',
-            'tags'          => 'nullable|string',
+            //'tags'          => 'nullable|string',
             //'status'        => 'required|in:Active,Deactive'
         ]);
 
@@ -43,14 +43,14 @@ class SongController extends Controller
 
         // 2. यूजर बनाएँ
         $lyric = Song::create([
-            'english_title' => $request,
-            'hindi_title'   => $request,
-            'artist'        => $request,
-            'english_lyric' => $request,
-            'hindi_lyric'   => $request,
-            'youtube_link'  => $request,
-            'tags'          => $request,
-            'status'        => $request,
+            'english_title' => $request->english_title,
+            'hindi_title'   => $request->hindi_title,
+            'artist'        => $request->artist,
+            'english_lyric' => $request->english_lyric,
+            'hindi_lyric'   => $request->hindi_lyric,
+            'youtube_link'  => $request->youtube_link,
+            'tags'          => $request->tags,
+            'status'        => 'Active'
             // 'name' => $request->name,
             // 'email' => $request->email,
             // 'role' => $request->role ?? 'user', // डिफ़ॉल्ट 'user'
