@@ -102,10 +102,10 @@ class SongController extends Controller
         $limit  = $request->query('limit', 10);
 
         $songs = Song::when($search, function ($query) use ($search) {
-            $query->where('title', 'LIKE', "%$search%")
+            $query->where('english_title', 'LIKE', "%$search%")
                 ->orWhere('artist', 'LIKE', "%$search%");
         })
-            ->orderBy('title', 'asc')
+            ->orderBy('english_title', 'asc')
             ->paginate($limit);
 
         return response()->json([
