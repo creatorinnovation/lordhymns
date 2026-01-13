@@ -26,7 +26,7 @@ class SongController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'english_title' => 'string|min:3',
+            'english_title' => 'string',
             'hindi_title'   => 'string',
             'artist'        => 'string',
             'english_lyric' => 'string',
