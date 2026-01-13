@@ -25,41 +25,24 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        $song = new Song();
-        $song->english_title = $request->english_title;
-        $song->hindi_title   = $request->hindi_title;
-        $song->artist        = $request->artist;
-        $song->english_lyric = $request->english_lyric;
-        $song->hindi_lyric   = $request->hindi_lyric;
-        $song->youtube_link  = $request->youtube_link;
-        $song->tags          = $request->tags;
-        $song->status        = $request->status;
-        $song->save();
+        $validator = Validator::make($request->all(), [
+            'english_title' => 'required|string|min:3',
+            'hindi_title'   => 'required|string',
+            'artist'        => 'required|string',
+            'english_lyric' => 'required|string',
+            'hindi_lyric'   => 'required|string',
+            'youtube_link'  => 'nullable|url',
+            'tags'          => 'nullable|string',
+            'status'        => 'required|in:Active,Deactive'
+        ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Song saved successfully',
-            'song'    => $song
-        ], 201);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Validation Error', 'errors' => $validator->errors()], 422);
+        }
 
-        // $validator = Validator::make($request->all(), [
-        //     'english_title' => 'required|string|min:3',
-        //     'hindi_title'   => 'required|string',
-        //     'artist'        => 'required|string',
-        //     'english_lyric' => 'required|string',
-        //     'hindi_lyric'   => 'required|string',
-        //     'youtube_link'  => 'nullable|url',
-        //     'tags'          => 'nullable|string',
-        //     'status'        => 'required|in:Active,Deactive'
-        // ]);
+        $lyric = Song::create($request->all());
 
-        // if ($validator->fails()) {
-        //     return response()->json(['message' => 'Validation Error', 'errors' => $validator->errors()], 422);
-        // }
-
-        // $lyric = Song::create($request->all());
-
-        // return response()->json($lyric, 201);
+        return response()->json($lyric, 201);
     }
 
     /**
