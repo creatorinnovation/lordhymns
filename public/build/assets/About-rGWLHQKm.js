@@ -1,0 +1,1 @@
+import{j as t,H as o}from"./app-B2_QvAPB.js";import{M as r}from"./MainLayout-CTSYdz9y.js";import"./Logo-Dal5EXcN.js";const i=()=>t.jsxs(r,{children:[t.jsx(o,{title:"About"}),t.jsx("h2",{children:"About"})]});export{i as default};
