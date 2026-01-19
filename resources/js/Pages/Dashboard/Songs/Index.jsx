@@ -141,12 +141,12 @@ export default function Index({ songs, filters }) {
                                             Edit
                                         </Link>
                                         <br />
-                                        <button
+                                        {/* <button
                                             onClick={() => router.delete(route('songs.destroy', song.id))}
                                             className="py-2 px-3 rounded bg-red-700 text-white"
                                         >
                                             Delete
-                                        </button>
+                                        </button> */}
                                     </div>
 
                                 </div>
