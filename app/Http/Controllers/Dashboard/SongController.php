@@ -22,7 +22,7 @@ class SongController extends Controller
         })
             ->orderBy($sort, $direction)
             ->latest()
-            ->paginate(100)
+            ->paginate(10)
             ->withQueryString();
 
         return Inertia::render('Dashboard/Songs/Index', [

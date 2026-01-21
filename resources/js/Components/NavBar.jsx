@@ -181,7 +181,7 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className="sticky top-0 left-0 w-full z-40 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-colors duration-300">
+            <nav className="sticky top-0 w-full z-10 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-colors duration-300">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-0">
                     <div className="flex justify-between h-20 items-center">
 
@@ -304,7 +304,7 @@ const Navbar = () => {
 
             {/* Sliding Drawer */}
             <div
-                className={`fixed top-0 right-0 h-full w-[280px] bg-white dark:bg-zinc-900 shadow-2xl z-100 transform transition-transform duration-300 ease-out md:hidden flex flex-col ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                className={`fixed top-0 right-0 z-50 h-full w-[280px] bg-white dark:bg-zinc-900 shadow-2xl z-100 transform transition-transform duration-300 ease-out md:hidden flex flex-col ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
                     }`}
             >
                 {/* Drawer Header */}

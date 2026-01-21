@@ -142,6 +142,13 @@ export default function AuthenticatedLayout({ header, children }) {
                         >
                             Dashboard
                         </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            href={route('songs.index')}
+                            active={route().current('songs.index')}
+                        >
+                            Lyrics
+                        </ResponsiveNavLink>
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4">

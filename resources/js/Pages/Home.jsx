@@ -1,6 +1,5 @@
 import React from 'react'
-import { Head, Link } from '@inertiajs/react';
-import NavBar from '@/Components/NavBar';
+import { Head } from '@inertiajs/react';
 import MainLayout from '@/Layouts/MainLayout';
 import Hero from '@/Components/Hero';
 import Courses from '@/Components/Courses';
@@ -12,8 +11,9 @@ import Stats from '@/Components/Stats';
 const Home = () => {
     return (
         <div>
-            <Head title="Home" />
             <MainLayout>
+                <Head title="Home" />
+
                 {/* --- Hero Section --- */}
                 <Hero />
 

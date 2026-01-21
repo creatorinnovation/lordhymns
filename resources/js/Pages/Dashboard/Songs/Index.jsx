@@ -30,16 +30,16 @@ export default function Index({ songs, filters }) {
         );
     };
 
-    useEffect(() => {
-        const delay = setTimeout(() => {
-            router.get(route('songs.index'), { search }, {
-                preserveState: true,
-                replace: true,
-            });
-        }, 400);
+    // useEffect(() => {
+    //     const delay = setTimeout(() => {
+    //         router.get(route('songs.index'), { search }, {
+    //             preserveState: true,
+    //             replace: true,
+    //         });
+    //     }, 400);
 
-        return () => clearTimeout(delay);
-    }, [search]);
+    //     return () => clearTimeout(delay);
+    // }, [search]);
 
     return (
         <AuthenticatedLayout>
@@ -107,7 +107,7 @@ export default function Index({ songs, filters }) {
                                                 {song.status}
                                             </button>
                                         </td>
-                                        <td className='flex gap-2 justify-end items-center'>
+                                        <td className='flex justify-between items-center'>
 
                                             <Link href={route('songs.edit', song.id)} className="py-2 px-3 rounded bg-green-700 text-white">
                                                 Edit

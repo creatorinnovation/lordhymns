@@ -578,12 +578,12 @@ export default function SongDetails({ song }) {
           {song ? (
             <>
               {/* Toolbar */}
-              <div id="song-toolbar" className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 p-4 flex flex-col sm:flex-row justify-between items-center gap-4 z-10 md:pl-8 pl-16">
-                <div>
+              <div id="song-toolbar" className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 p-4 flex flex-col sm:flex-row justify-between items-center gap-4 z-10 md:pl-0 pl-0">
+                {/* <div>
                   <Link to="/song-list">
                     back
                   </Link>
-                </div>
+                </div> */}
                 <div className="text-center sm:text-left">
                   <h2 className="text-lg font-bold text-gray-900 dark:text-white">{song.english_title}</h2>
                   <p className="text-gray-500 dark:text-gray-400 text-md">{song.hindi_title}</p>
