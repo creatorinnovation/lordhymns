@@ -1,0 +1,1 @@
+import{j as t,H as o}from"./app-DctKPgBp.js";import{M as r}from"./MainLayout-D05vhtXV.js";import"./NavBar-D0toUJh7.js";import"./LoginModal-DRVk1Ap6.js";import"./Modal-BjR629bu.js";import"./RegisterModal-CD9eQUq8.js";const u=()=>t.jsxs(r,{children:[t.jsx(o,{title:"About"}),t.jsx("h2",{children:"About"})]});export{u as default};
