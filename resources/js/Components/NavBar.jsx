@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { Link, usePage } from '@inertiajs/react';
 
 import {
     LayoutDashboard,
@@ -18,8 +19,9 @@ import {
 } from 'lucide-react';
 
 import Logo from './Logo';
-import { Link } from '@inertiajs/react';
-// import Modal from '../components/Modal';
+import Modal from './Modal';
+import LoginModal from '@/Pages/Auth/LoginModal';
+import RegisterModal from '@/Pages/Auth/RegisterModal';
 
 // --- Data Structures ---
 const menuItems = [
@@ -149,8 +151,8 @@ const Navbar = () => {
 
     const [theme, setTheme] = useState('light');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [authModal, setAuthModal] = useState({ isOpen: false, type: 'login' });
 
+    
     // Initialize theme from LocalStorage
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme');
@@ -171,13 +173,15 @@ const Navbar = () => {
         document.documentElement.classList.toggle('dark', newTheme === 'dark');
     };
 
-    const openAuth = (type) => setAuthModal({ isOpen: true, type });
-    const closeAuth = () => setAuthModal({ ...authModal, isOpen: false });
-    const switchAuthMode = () => setAuthModal(prev => ({ ...prev, type: prev.type === 'login' ? 'register' : 'login' }));
+    const [loginOpen, setLoginOpen] = useState(false);
+    const [registerOpen, setRegisterOpen] = useState(false);
 
     const handleMobileLinkClick = () => {
         setIsMenuOpen(false);
     };
+
+    const user = usePage().props.auth.user;
+    const { auth } = usePage().props;
 
     return (
         <>
@@ -211,73 +215,100 @@ const Navbar = () => {
                             <div>{user?.name || "Guest"}</div>
                             ); */}
 
-                            
-                                    {/* HOVER DROPDOWN START */}
-                                    {/* <div className="relative group">
-                                        <button className="flex items-center gap-3 p-1 pr-3 rounded-full hover:bg-slate-50 transition-all">
-                                            <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold border-2 border-white shadow-sm">
-                                                AD
+                            {auth.user ? (
+                                // {/* HOVER DROPDOWN START */ }
+                                < div className="relative group">
+                                    <button className="flex items-center gap-3 p-1 pr-3 rounded-full hover:bg-slate-50 transition-all">
+                                        <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold border-2 border-white shadow-sm">
+                                            AD
+                                        </div>
+                                        <div className="flex flex-col items-start">
+                                            <span className="text-sm font-semibold text-slate-900 leading-none">{auth.user.name}</span>
+                                            <span className="text-[10px] text-slate-500 mt-1 uppercase tracking-wider">{auth.user.role}</span>
+                                        </div>
+                                        <ChevronDown size={14} className="text-slate-400 group-hover:rotate-180 transition-transform duration-300" />
+                                    </button>
+
+                                    {/* Dropdown Menu - Appears on Hover */}
+                                    <div className="absolute right-0 top-full pt-2 w-56 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-100">
+                                        <div className="bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
+                                            <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
+                                                <p className="text-xs text-slate-500">Signed in as</p>
+                                                <p className="text-sm font-medium text-slate-900 truncate">{auth.user.email}</p>
                                             </div>
-                                            <div className="flex flex-col items-start">
-                                                <span className="text-sm font-semibold text-slate-900 leading-none">Admin</span>
-                                                <span className="text-[10px] text-slate-500 mt-1 uppercase tracking-wider">Role</span>
+
+                                            <div className="p-2">
+
+                                                {auth.user.role === 'admin' && (
+                                                    <Link href="/admin/dashboard" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
+                                                        <LayoutDashboard size={16} />
+                                                        Dashboard
+                                                    </Link>
+                                                )}
+
+                                                <Link href={route('profile.edit')} className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
+                                                    <User size={16} />
+                                                    Profile Settings
+                                                </Link>
+                                                <Link href="/" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
+                                                    <CreditCard size={16} />
+                                                    Billing & Plans
+                                                </Link>
+                                                <Link to="/" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
+                                                    <ShieldCheck size={16} />
+                                                    Security
+                                                </Link>
                                             </div>
-                                            <ChevronDown size={14} className="text-slate-400 group-hover:rotate-180 transition-transform duration-300" />
-                                        </button> */}
 
-                                        {/* Dropdown Menu - Appears on Hover */}
-                                        {/* <div className="absolute right-0 top-full pt-2 w-56 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-100">
-                                            <div className="bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
-                                                <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
-                                                    <p className="text-xs text-slate-500">Signed in as</p>
-                                                    <p className="text-sm font-medium text-slate-900 truncate">email</p>
-                                                </div>
+                                            <div className="p-2 border-t border-slate-100">
+                                                <Link href="/logout" method="post" as="button" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors"><LogOut size={16} /> Logout</Link>
 
-                                                <div className="p-2">
-
-                                                    
-                                                        <Link href="/dashboard" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
-                                                            <LayoutDashboard size={16} />
-                                                            Dashboard
-                                                        </Link>
-
-                                                    <Link href="/" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
-                                                        <User size={16} />
-                                                        Profile Settings
-                                                    </Link>
-                                                    <Link href="/" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
-                                                        <CreditCard size={16} />
-                                                        Billing & Plans
-                                                    </Link>
-                                                    <Link to="/" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
-                                                        <ShieldCheck size={16} />
-                                                        Security
-                                                    </Link>
-                                                </div>
-
-                                                <div className="p-2 border-t border-slate-100">
-                                                    <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors" >
-                                                        <LogOut size={16} />
-                                                        Sign Out
-                                                    </button>
-                                                </div>
+                                                {/* <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors" >
+                                                <LogOut size={16} />
+                                                Sign Out
+                                            </button> */}
                                             </div>
                                         </div>
-                                    </div> */}
-                                    {/* HOVER DROPDOWN END */}
+                                    </div>
+                                </div>
+                                // {/* HOVER DROPDOWN END */}
+                            ) : (
+                                <div>
+                                    <button onClick={() => setLoginOpen(true)} className="px-5 py-2 text-zinc-700 dark:text-zinc-200 font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors">Login</button>
+                                    <button onClick={() => setRegisterOpen(true)} className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg shadow-blue-600/30 transition-all hover:scale-105">Register</button>
+                                </div>
+                            )}
 
-                                    {/* <span>नमस्ते, <strong>{user.user.name}</strong> ({user.user.role})</span>
+                            {/* <span>नमस्ते, <strong>{user.user.name}</strong> ({user.user.role})</span>
                                     <button onClick={handleLogout} style={{ cursor: 'pointer' }}>
                                         Logout
                                     </button> */}
-                                
-                                    <button onClick={() => openAuth('login')} className="px-5 py-2 text-zinc-700 dark:text-zinc-200 font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors">
-                                        Login
-                                    </button>
-                                    <button onClick={() => openAuth('register')} className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg shadow-blue-600/30 transition-all hover:scale-105">
-                                        Register
-                                    </button>
-                                
+
+
+
+                            {/* {auth.user ? (
+                            <div>
+                                {auth.user.role === 'user' && (
+                                    <Link href="/admin/settings">user Settings</Link>
+                                )}
+
+                                {auth.user.role === 'admin' && (
+                                    <Link href="/admin/settings">Admin Settings</Link>
+                                )}
+                                <span>स्वागत है, {auth.user.name}</span>
+                                <Link href="/logout" method="post" as="button">Logout</Link>
+                            </div>
+                        ) : (
+                            <div>
+                                <button onClick={() => setLoginOpen(true)} className="px-5 py-2 text-zinc-700 dark:text-zinc-200 font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors">Login</button>
+                                <button onClick={() => setRegisterOpen(true)} className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg shadow-blue-600/30 transition-all hover:scale-105">Register</button>
+                            </div>
+                        )} */}
+
+
+
+
+
 
                         </div>
 
@@ -338,38 +369,85 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* Drawer Footer (Auth) */}
-                <div className="p-6 border-t border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 shrink-0">
-                    <div className="space-y-3">
-                        <button
-                            onClick={() => { openAuth('login'); setIsMenuOpen(false); }}
-                            className="w-full py-3 text-center rounded-xl border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-white font-semibold hover:bg-white dark:hover:bg-zinc-800 transition-colors"
-                        >
-                            Login
+                {auth.user ? (
+                    // {/* HOVER DROPDOWN START */ }
+                    < div className="relative group inline-block">
+                        <button className="flex items-center gap-3 p-1 pr-3 rounded-full hover:bg-slate-50 transition-all">
+                            <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold border-2 border-white shadow-sm">
+                                AD
+                            </div>
+                            <div className="flex flex-col items-start">
+                                <span className="text-sm font-semibold text-slate-900 leading-none">{auth.user.name}</span>
+                                <span className="text-[10px] text-slate-500 mt-1 uppercase tracking-wider">{auth.user.role}</span>
+                            </div>
+                            <ChevronDown size={14} className="text-slate-400 group-hover:rotate-180 transition-transform duration-300" />
                         </button>
-                        <button
-                            onClick={() => { openAuth('register'); setIsMenuOpen(false); }}
-                            className="w-full py-3 text-center rounded-xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-600/20 active:scale-95 transition-all"
-                        >
-                            Register Now
-                        </button>
-                    </div>
-                </div>
-            </div>
 
-            {/* Login/Register Modal */}
-            {/* <AuthModal
-                isOpen={authModal.isOpen}
-                onClose={closeAuth}
-                type={authModal.type}
-                switchToOther={switchAuthMode}
-            /> */}
-            {/* <Modal
-                isOpen={authModal.isOpen}
-                onClose={closeAuth}
-                type={authModal.type}
-                switchToOther={switchAuthMode}
-            /> */}
+                        {/* Dropdown Menu - Appears on Hover */}
+                        <div className="absolute right-0 bottom-full pt-2 w-56 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-100">
+                            <div className="bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
+                                <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
+                                    <p className="text-xs text-slate-500">Signed in as</p>
+                                    <p className="text-sm font-medium text-slate-900 truncate">{auth.user.email}</p>
+                                </div>
+
+                                <div className="p-2">
+
+                                    {auth.user.role === 'admin' && (
+                                        <Link href="/admin/dashboard" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
+                                            <LayoutDashboard size={16} />
+                                            Dashboard
+                                        </Link>
+                                    )}
+
+                                    <Link href="/" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
+                                        <User size={16} />
+                                        Profile Settings
+                                    </Link>
+                                    <Link href="/" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
+                                        <CreditCard size={16} />
+                                        Billing & Plans
+                                    </Link>
+                                    <Link to="/" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
+                                        <ShieldCheck size={16} />
+                                        Security
+                                    </Link>
+                                </div>
+
+                                <div className="p-2 border-t border-slate-100">
+                                    <Link href="/logout" method="post" as="button" className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors"><LogOut size={16} /> Logout</Link>
+
+                                    {/* <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors" >
+                                                <LogOut size={16} />
+                                                Sign Out
+                                            </button> */}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    // {/* HOVER DROPDOWN END */}
+                ) : (
+
+                    // {/* Drawer Footer (Auth) */}
+                    <div className="p-6 border-t border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 shrink-0">
+                        <div className="space-y-3">
+                            <button onClick={() => { setLoginOpen(true); setIsMenuOpen(false) }} className="w-full py-3 text-center rounded-xl border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-white font-semibold hover:bg-white dark:hover:bg-zinc-800 transition-colors">Login</button>
+
+                            <button onClick={() => { setRegisterOpen(true); setIsMenuOpen(false) }} className="w-full py-3 text-center rounded-xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-600/20 active:scale-95 transition-all">Register</button>
+                        </div >
+                    </div >
+                )}
+            </div >
+
+            <LoginModal
+                show={loginOpen}
+                onClose={() => setLoginOpen(false)}
+            />
+
+            <RegisterModal
+                show={registerOpen}
+                onClose={() => setRegisterOpen(false)}
+            />
 
         </>
     );

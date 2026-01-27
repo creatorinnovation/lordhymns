@@ -25,7 +25,7 @@ class SongController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('Dashboard/Songs/Index', [
+        return Inertia::render('Admin/Songs/index', [
             'songs'  => $songs,
             'filters' => [
                 'search' => $search,
@@ -37,7 +37,7 @@ class SongController extends Controller
 
     public function create()
     {
-        return Inertia::render('Dashboard/Songs/Create');
+        return Inertia::render('Admin/Songs/Create');
     }
 
     public function store(Request $request)
@@ -60,7 +60,7 @@ class SongController extends Controller
 
     public function edit(Song $song)
     {
-        return Inertia::render('Dashboard/Songs/Edit', [
+        return Inertia::render('Admin/Songs/Edit', [
             'song' => $song,
         ]);
     }
